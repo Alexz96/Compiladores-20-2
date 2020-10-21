@@ -10,21 +10,23 @@ import java.util.ArrayList;
 /**
  *
  * @author alexs
+ * @author taywornath
  */
+
 public class LexicoMain {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
-//Cria lista de tokens
+    	//Cria lista de tokens
         ArrayList<Token> lt = new ArrayList<Token>();
 
-        //Cria analisador léxico
+        //Cria o analisador léxico
         Lexico lexico = new Lexico();
 
-        //Realliza a análise léxica
+        //Realiza a análise léxica
         //lexico.analisa(args[0]);
-        lt = lexico.analisa("C:\\Users\\alexs\\OneDrive\\Documentos\\Facul\\2020-2\\Compiladores\\ALR\\src\\teste1.lpd");
+        lt = lexico.analisa("teste1.lpd");
 
         //Imprime número de tokens
         System.out.println("Número de tokens: " + lt.size());
