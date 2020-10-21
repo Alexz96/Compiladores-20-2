@@ -12,8 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -46,14 +45,16 @@ public class Lexico {
                 // Pode ser definição de variável ou atribuição
                 //ler próximo caractér para decidir
                 ch = leCh();
-                if(ch == '=') // É uma atribuição
+                //Se for = significa que é uma atribuição
+                if(ch == '=') 
                     return new Token(TipoToken.SATRIBUICAO, ":=", 0, 0);
-                else // É uma definição de variável
+                // Se não, e uma definição de variável
+                else 
                     return new Token(TipoToken.SDOISPONTOS, ":", 0,0);
+            //Caso for ;
             case ';':
                 return new Token(TipoToken.SPONTO_E_VIRGULA, ";", 0,0);
-                
-                
+               
     		//Caso for (
     		case '(':
     			//Retorna o token... e assim por diante
@@ -161,7 +162,7 @@ public class Lexico {
                     }
                 }
                 
-             // Se encontrar o f, virá validar se é 'fim'
+             // Se encontrar o f, irá validar se é 'fim'
              case 'f':
                    lexema = String.valueOf(ch);
                    ch = leCh();
