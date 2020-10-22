@@ -33,7 +33,11 @@ public class Lexico {
 
 	// Caracter sendo analisado
 	char ch;
-
+        
+        private int coluna = 1; 
+        
+        private int linha = 1;
+        
 	private Token buscaToken() {
 
 		// Lexema sendo construido
@@ -65,8 +69,9 @@ public class Lexico {
 									ch = leCh();
 									if (ch == 'a') {
 										lexema += String.valueOf(ch);
-										return new Token(TipoToken.SPROGRAMA, lexema, 0, 0);
+										return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna);
 									}
+                                                                        coluna = 1;
 								}
 							}
 						}
@@ -75,21 +80,30 @@ public class Lexico {
 			}
 
 			// Se encontrar o t, virá validar se é do programa'teste'
-		case 't':
+		case 'c':
 			lexema = String.valueOf(ch);
 			ch = leCh();
-			if (ch == 'e') {
+			if (ch == 'a') {
 				lexema += String.valueOf(ch);
 				ch = leCh();
-				if (ch == 's') {
+				if (ch == 'l') {
 					lexema += String.valueOf(ch);
 					ch = leCh();
-					if (ch == 't') {
+					if (ch == 'c') {
 						lexema += String.valueOf(ch);
 						ch = leCh();
-						if (ch == 'e') {
+						if (ch == 'u') {
 							lexema += String.valueOf(ch);
-							return new Token(TipoToken.SIDENTIFICADOR, lexema, 0, 0);
+                                                        ch = leCh();
+                                                        if(ch == 'l') {
+                                                            lexema += String.valueOf(ch);
+                                                            ch = leCh();
+                                                            if (ch == 'a') {
+                                                                lexema += String.valueOf(ch);
+                                                                ch = leCh();
+                                                                return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
+                                                            }
+                                                        }
 						}
 					}
 				}
@@ -266,13 +280,20 @@ public class Lexico {
 		 * 
 		 * ch = leCh(); coluna++; if (ch == '\n') { linha++; coluna =0; }
 		 */
-
+                
 		try {
 			intch = r.read();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
+                // A cada nova linha soma uma linha - com base no caractere ASCii
+                if(intch == 10) { // 10 é o código ASCII do \n
+                    linha++;
+                } else {
+                    coluna++;
+                }
+                
 		if (intch == -1)
 			return '@';
 		else
@@ -298,13 +319,18 @@ public class Lexico {
 
 			// Pula comentários do código Pascal/LPD
 			if (ch == '{') {
+                            linha++;
 				while (ch != '}') {
 					ch = leCh();
 				}
+                                linha++;
 			}
 
 			// Pula espaços em branco, tabs e nova linha
 			while (ch == ' ' || ch == '\n' || ch == '\t') {
+                            if(ch == '\n') {
+                                linha++;
+                            } 
 				ch = leCh();
 			}
 
