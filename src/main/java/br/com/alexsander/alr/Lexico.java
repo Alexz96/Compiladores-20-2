@@ -112,7 +112,7 @@ public class Lexico {
 			// Caso for ;
 		case ';':
 			// Já posso retornar o token se for ; pois não tem outra composição
-			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", 0, 0);
+			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, coluna);
 
 		// Se encontrar o i, virá validar se é 'inicio'
 		case 'i':
@@ -132,7 +132,7 @@ public class Lexico {
 							ch = leCh();
 							if (ch == 'o') {
 								lexema += String.valueOf(ch);
-								return new Token(TipoToken.SINICIO, lexema, 0, 0);
+								return new Token(TipoToken.SINICIO, lexema, linha, coluna);
 							}
 						}
 					}
@@ -148,14 +148,14 @@ public class Lexico {
 				ch = leCh();
 				if (ch == 'r') {
 					lexema += String.valueOf(ch);
-					return new Token(TipoToken.SVAR, lexema, 0, 0);
+					return new Token(TipoToken.SVAR, lexema, linha, coluna);
 				}
 			}
 
 			// Se encontrar o x, ele é o identificador neste caso
 		case 'x':
 			lexema = String.valueOf(ch);
-			return new Token(TipoToken.SIDENTIFICADOR, lexema, 0, 0);
+			return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
 
 		// Caso for :
 		case ':':
@@ -163,10 +163,10 @@ public class Lexico {
 			ch = leCh();
 			// Se for = significa que é uma atribuição
 			if (ch == '=')
-				return new Token(TipoToken.SATRIBUICAO, ":=", 0, 0);
+				return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna);
 			// Se não, ele é uma definição de variável
 			else
-				return new Token(TipoToken.SDOISPONTOS, ":", 0, 0);
+				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna);
 
 			// Se encontrar o n, virá validar se é 'inteiro', i já está sendo usado
 		case 'n':
@@ -186,7 +186,7 @@ public class Lexico {
 							ch = leCh();
 							if (ch == 'o') {
 								lexema += String.valueOf(ch);
-								return new Token(TipoToken.SINTEIRO, lexema, 0, 0);
+								return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
 							}
 						}
 					}
@@ -211,7 +211,7 @@ public class Lexico {
 		case '7':
 		case '8':
 		case '9':
-			return new Token(TipoToken.SNUMERO, lexema, 0, 0);
+			return new Token(TipoToken.SNUMERO, lexema, linha, coluna);
 
 		// Se encontrar o n, virá validar se é 'inteiro', i já está sendo usado
 		case 'e':
@@ -233,7 +233,7 @@ public class Lexico {
 								lexema += String.valueOf(ch);
 								if (ch == 'a') {
 									lexema += String.valueOf(ch);
-								return new Token(TipoToken.SINTEIRO, lexema, 0, 0);
+								return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
 								}
 							}
 						}
@@ -244,10 +244,10 @@ public class Lexico {
 			// Caso for (
 		case '(':
 			// Retorna o token... e assim por diante
-			return new Token(TipoToken.SABRE_PARENTESIS, "(", 0, 0);
+			return new Token(TipoToken.SABRE_PARENTESIS, "(", linha, coluna);
 		// Caso for )
 		case ')':
-			return new Token(TipoToken.SFECHA_PARENTESIS, ")", 0, 0);
+			return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, coluna);
 
 		// Se encontrar o f, irá validar se é 'fim'
 		case 'f':
@@ -258,16 +258,16 @@ public class Lexico {
 				ch = leCh();
 				if (ch == 'm') {
 					lexema += String.valueOf(ch);
-					return new Token(TipoToken.SVAR, lexema, 0, 0);
+					return new Token(TipoToken.SVAR, lexema, linha, coluna);
 				}
 			}
 
 		case '.':
-			return new Token(TipoToken.SPONTO, ".", 0, 0);
+			return new Token(TipoToken.SPONTO, ".", linha, coluna);
 
 		// Por padrão, irá retornar erro caso não encontrar tratamento
 		default:
-			return new Token(TipoToken.SERRO, lexema, 0, 0);
+			return new Token(TipoToken.SERRO, lexema, linha, coluna);
 		}
 
 	}
@@ -319,7 +319,7 @@ public class Lexico {
 
 			// Pula comentários do código Pascal/LPD
 			if (ch == '{') {
-                            linha++;
+                linha++;
 				while (ch != '}') {
 					ch = leCh();
 				}
