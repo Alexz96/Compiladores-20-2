@@ -48,7 +48,7 @@ public class Lexico {
 			// Caso for ;
 		case ';':
 			// Já posso retornar o token se for ; pois não tem outra composição
-			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, coluna);
+			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, coluna - 1);
 
 		// Caso for :
 		case ':':
@@ -56,10 +56,10 @@ public class Lexico {
 			ch = leCh();
 			// Se for = significa que é uma atribuição
 			if (ch == '=')
-				return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna);
+				return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna - 1);
 			// Se não, ele é uma definição de variável
 			else
-				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna);
+				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna - 1);
 
 			// Ver como fazer para identificar números, mais de 1 no mesmo case - OK
 			// Como retornar o próprio lexema, o número?
@@ -79,20 +79,38 @@ public class Lexico {
 		case '7':
 		case '8':
 		case '9':
-			return new Token(TipoToken.SNUMERO, lexema, linha, coluna);
+			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')'){
+				lexema += String.valueOf(ch);
+				ch = leCh();
+			}
+			devolver();
+			return new Token(TipoToken.SNUMERO, lexema, linha, coluna - lexema.length());
 
 		// Caso for (
 		case '(':
 			// Retorna o token... e assim por diante
-			return new Token(TipoToken.SABRE_PARENTESIS, "(", linha, coluna);
+			return new Token(TipoToken.SABRE_PARENTESIS, "(", linha, coluna - 1);
 		// Caso for )
 		case ')':
-			return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, coluna);
+			return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, coluna - 1);
 
 
 		case '.':
-			return new Token(TipoToken.SPONTO, ".", linha, coluna);
-			
+			return new Token(TipoToken.SPONTO, ".", linha, coluna - 1);
+		case ',':
+			return new Token(TipoToken.SVIRGULA, ",", linha, coluna - 1);
+		// Casos para Opera��es
+		case '+':
+			return new Token(TipoToken.SMAIS, "+", linha, coluna - 1);
+		case '*':
+			return new Token(TipoToken.SMULTIPLICACAO, "*", linha, coluna - 1);
+		case '-':
+			return new Token(TipoToken.SMENOS, "-", linha, coluna - 1);
+		case '/':
+			return new Token(TipoToken.SDIVISAO, "/", linha, coluna - 1);
+
+
+		// Casos para palavras e letras	
 		case 'a':
 		case 'b':
 		case 'c':
@@ -119,32 +137,47 @@ public class Lexico {
 		case 'x':
 		case 'y':
 		case 'z':
-			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ','){
+			//while para formar as palavras
+			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')' && ch != ':'){
 				lexema += String.valueOf(ch);
 				ch = leCh();
 			}
+			devolver();
 			if(lexema.equals("programa")){
-				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna);
+				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("inicio")){
 				return new Token(TipoToken.SINICIO, lexema, linha, coluna);
 			}else if(lexema.equals("fim")){
-				return new Token(TipoToken.SFIM, lexema, linha, coluna);
+				return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("var")){
-				return new Token(TipoToken.SVAR, lexema, linha, coluna);
+				return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("escreva")){
-				return new Token(TipoToken.SESCREVA, lexema, linha, coluna);
+				return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("inteiro")){
-				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
+				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
 			}else{
-				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
+				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
 			}
 		// Por padrão, irá retornar erro caso não encontrar tratamento
 		default:
-			return new Token(TipoToken.SERRO, lexema, linha, coluna);
+			return new Token(TipoToken.SERRO, lexema, linha, coluna - 1);
 		}
 
 	}
 
+	private void devolver() {
+		if(ch == '\n'){
+			linha--;
+		}else{
+			coluna--;
+		}
+		try {
+			r.unread(ch);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private char leCh() {
 
 		// Tentativa de validar linha x coluna
@@ -193,18 +226,13 @@ public class Lexico {
 
 			// Pula comentários do código Pascal/LPD
 			if (ch == '{') {
-                //linha++;
 				while (ch != '}') {
 					ch = leCh();
 				}
-                             //   linha++;
 			}
 
 			// Pula espaços em branco, tabs e nova linha
 			while (ch == ' ' || ch == '\n' || ch == '\t') {
-                           /* if(ch == '\n') {
-                                linha++;
-                            }*/
 				ch = leCh();
 			}
 
