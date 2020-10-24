@@ -45,117 +45,10 @@ public class Lexico {
 
 		switch (ch) {
 
-		// Se encontrar o p, virá validar se é 'programa'
-		case 'p':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 'r') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'o') {
-					lexema += String.valueOf(ch);
-					ch = leCh();
-					if (ch == 'g') {
-						lexema += String.valueOf(ch);
-						ch = leCh();
-						if (ch == 'r') {
-							lexema += String.valueOf(ch);
-							ch = leCh();
-							if (ch == 'a') {
-								lexema += String.valueOf(ch);
-								ch = leCh();
-								if (ch == 'm') {
-									lexema += String.valueOf(ch);
-									ch = leCh();
-									if (ch == 'a') {
-										lexema += String.valueOf(ch);
-										return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna);
-									}
-                                                                        coluna = 1;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			// Se encontrar o t, virá validar se é do programa'teste'
-		case 'c':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 'a') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'l') {
-					lexema += String.valueOf(ch);
-					ch = leCh();
-					if (ch == 'c') {
-						lexema += String.valueOf(ch);
-						ch = leCh();
-						if (ch == 'u') {
-							lexema += String.valueOf(ch);
-                                                        ch = leCh();
-                                                        if(ch == 'l') {
-                                                            lexema += String.valueOf(ch);
-                                                            ch = leCh();
-                                                            if (ch == 'a') {
-                                                                lexema += String.valueOf(ch);
-                                                                ch = leCh();
-                                                                return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
-                                                            }
-                                                        }
-						}
-					}
-				}
-			}
-
 			// Caso for ;
 		case ';':
 			// Já posso retornar o token se for ; pois não tem outra composição
 			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, coluna);
-
-		// Se encontrar o i, virá validar se é 'inicio'
-		case 'i':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 'n') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'i') {
-					lexema += String.valueOf(ch);
-					ch = leCh();
-					if (ch == 'c') {
-						lexema += String.valueOf(ch);
-						ch = leCh();
-						if (ch == 'i') {
-							lexema += String.valueOf(ch);
-							ch = leCh();
-							if (ch == 'o') {
-								lexema += String.valueOf(ch);
-								return new Token(TipoToken.SINICIO, lexema, linha, coluna);
-							}
-						}
-					}
-				}
-			}
-
-			// Se encontrar o v, virá validar se é 'var'
-		case 'v':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 'a') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'r') {
-					lexema += String.valueOf(ch);
-					return new Token(TipoToken.SVAR, lexema, linha, coluna);
-				}
-			}
-
-			// Se encontrar o x, ele é o identificador neste caso
-		case 'x':
-			lexema = String.valueOf(ch);
-			return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
 
 		// Caso for :
 		case ':':
@@ -167,31 +60,6 @@ public class Lexico {
 			// Se não, ele é uma definição de variável
 			else
 				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna);
-
-			// Se encontrar o n, virá validar se é 'inteiro', i já está sendo usado
-		case 'n':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 't') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'e') {
-					lexema += String.valueOf(ch);
-					ch = leCh();
-					if (ch == 'i') {
-						lexema += String.valueOf(ch);
-						ch = leCh();
-						if (ch == 'r') {
-							lexema += String.valueOf(ch);
-							ch = leCh();
-							if (ch == 'o') {
-								lexema += String.valueOf(ch);
-								return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
-							}
-						}
-					}
-				}
-			}
 
 			// Ver como fazer para identificar números, mais de 1 no mesmo case - OK
 			// Como retornar o próprio lexema, o número?
@@ -213,35 +81,7 @@ public class Lexico {
 		case '9':
 			return new Token(TipoToken.SNUMERO, lexema, linha, coluna);
 
-		// Se encontrar o n, virá validar se é 'inteiro', i já está sendo usado
-		case 'e':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 's') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'c') {
-					lexema += String.valueOf(ch);
-					ch = leCh();
-					if (ch == 'r') {
-						lexema += String.valueOf(ch);
-						ch = leCh();
-						if (ch == 'e') {
-							lexema += String.valueOf(ch);
-							ch = leCh();
-							if (ch == 'v') {
-								lexema += String.valueOf(ch);
-								if (ch == 'a') {
-									lexema += String.valueOf(ch);
-								return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			// Caso for (
+		// Caso for (
 		case '(':
 			// Retorna o token... e assim por diante
 			return new Token(TipoToken.SABRE_PARENTESIS, "(", linha, coluna);
@@ -249,22 +89,55 @@ public class Lexico {
 		case ')':
 			return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, coluna);
 
-		// Se encontrar o f, irá validar se é 'fim'
-		case 'f':
-			lexema = String.valueOf(ch);
-			ch = leCh();
-			if (ch == 'i') {
-				lexema += String.valueOf(ch);
-				ch = leCh();
-				if (ch == 'm') {
-					lexema += String.valueOf(ch);
-					return new Token(TipoToken.SVAR, lexema, linha, coluna);
-				}
-			}
 
 		case '.':
 			return new Token(TipoToken.SPONTO, ".", linha, coluna);
-
+			
+		case 'a':
+		case 'b':
+		case 'c':
+		case 'd':
+		case 'e':
+		case 'f':
+		case 'g':
+		case 'h':
+		case 'i':
+		case 'j':
+		case 'k':
+		case 'l':
+		case 'm':
+		case 'n':
+		case 'o':
+		case 'p':
+		case 'q':
+		case 'r':
+		case 's':
+		case 't':
+		case 'u':
+		case 'v':
+		case 'w':
+		case 'x':
+		case 'y':
+		case 'z':
+			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ','){
+				lexema += String.valueOf(ch);
+				ch = leCh();
+			}
+			if(lexema.equals("programa")){
+				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna);
+			}else if(lexema.equals("inicio")){
+				return new Token(TipoToken.SINICIO, lexema, linha, coluna);
+			}else if(lexema.equals("fim")){
+				return new Token(TipoToken.SFIM, lexema, linha, coluna);
+			}else if(lexema.equals("var")){
+				return new Token(TipoToken.SVAR, lexema, linha, coluna);
+			}else if(lexema.equals("escreva")){
+				return new Token(TipoToken.SESCREVA, lexema, linha, coluna);
+			}else if(lexema.equals("inteiro")){
+				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
+			}else{
+				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
+			}
 		// Por padrão, irá retornar erro caso não encontrar tratamento
 		default:
 			return new Token(TipoToken.SERRO, lexema, linha, coluna);
@@ -290,6 +163,7 @@ public class Lexico {
                 // A cada nova linha soma uma linha - com base no caractere ASCii
                 if(intch == 10) { // 10 é o código ASCII do \n
                     linha++;
+                    coluna = 1;
                 } else {
                     coluna++;
                 }
@@ -319,18 +193,18 @@ public class Lexico {
 
 			// Pula comentários do código Pascal/LPD
 			if (ch == '{') {
-                linha++;
+                //linha++;
 				while (ch != '}') {
 					ch = leCh();
 				}
-                                linha++;
+                             //   linha++;
 			}
 
 			// Pula espaços em branco, tabs e nova linha
 			while (ch == ' ' || ch == '\n' || ch == '\t') {
-                            if(ch == '\n') {
+                           /* if(ch == '\n') {
                                 linha++;
-                            } 
+                            }*/
 				ch = leCh();
 			}
 
