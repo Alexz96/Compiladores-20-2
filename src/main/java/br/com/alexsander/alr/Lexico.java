@@ -18,6 +18,7 @@ import java.util.ArrayList;
  *
  * @author alexs
  * @author taywornath
+ * @author TeoFalleiro
  */
 
 public class Lexico {
@@ -99,7 +100,7 @@ public class Lexico {
 			return new Token(TipoToken.SPONTO, ".", linha, coluna - 1);
 		case ',':
 			return new Token(TipoToken.SVIRGULA, ",", linha, coluna - 1);
-		// Casos para Opera��es
+		// Casos para Operacoes
 		case '+':
 			return new Token(TipoToken.SMAIS, "+", linha, coluna - 1);
 		case '*':
@@ -144,23 +145,56 @@ public class Lexico {
 			}
 			devolver();
 			if(lexema.equals("programa")){
-				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
+				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna);
 			}else if(lexema.equals("inicio")){
 				return new Token(TipoToken.SINICIO, lexema, linha, coluna);
 			}else if(lexema.equals("fim")){
-				return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
+				return new Token(TipoToken.SFIM, lexema, linha, coluna);
 			}else if(lexema.equals("var")){
-				return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
+				return new Token(TipoToken.SVAR, lexema, linha, coluna);
 			}else if(lexema.equals("escreva")){
-				return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
+                            // Se encontrar a palavra escreva e em seguida um número, seguido de operação
+                            // deve retornar o valor da operação
+//                            ch = leCh();
+//                            coluna++;
+//                            if(ch == '1' || ch == '2' || ch == '3' || ch == '4' 
+//                                    || ch == '5' || ch == '6' || ch == '7' || ch == '8'
+//                                    || ch == '9' || ch == '0') {
+//                                int operacao = (int) ch;
+//                                ch = leCh();
+//                                coluna++;
+//                                switch (ch) {
+//                                    case '+':
+//                                        ch = leCh();
+//                                        operacao += (int) ch;
+//                                        lexema = String.valueOf(operacao);
+//                                        return new Token(TipoToken.SOPERACAOSOMA, lexema, linha, coluna);
+//                                    case '-':
+//                                        ch = leCh();
+//                                        operacao += (int) ch;
+//                                        lexema = String.valueOf(operacao);
+//                                        return new Token(TipoToken.SOPERACAOSUBTRACAO, lexema, linha, coluna);
+//                                    case '*':
+//                                        ch = leCh();
+//                                        operacao += (int) ch;
+//                                        lexema = String.valueOf(operacao);
+//                                        return new Token(TipoToken.SOPERACAOMULT, lexema, linha, coluna);
+//                                    default:
+//                                        ch = leCh();
+//                                        operacao += (int) ch;
+//                                        lexema = String.valueOf(operacao);
+//                                        return new Token(TipoToken.SOPERACAODIV, lexema, linha, coluna);
+//                                }
+//                            }
+				return new Token(TipoToken.SESCREVA, lexema, linha, coluna);
 			}else if(lexema.equals("inteiro")){
-				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
+				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna);
 			}else{
-				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
+				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna);
 			}
 		// Por padrão, irá retornar erro caso não encontrar tratamento
 		default:
-			return new Token(TipoToken.SERRO, lexema, linha, coluna - 1);
+			return new Token(TipoToken.SERRO, lexema, linha, coluna);
 		}
 
 	}

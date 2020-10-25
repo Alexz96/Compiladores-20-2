@@ -8,6 +8,8 @@ package br.com.alexsander.alr;
 /**
  *
  * @author alexs
+ * @author taywornath
+ * @author TeoFalleiro
  */
 public enum TipoToken {
 	SPROGRAMA, 			//programa
@@ -30,6 +32,9 @@ public enum TipoToken {
 	SIDENTIFICADOR,			//x, teste
 	SABRE_PARENTESIS,		//(
 	SFECHA_PARENTESIS,		//)
-	SERRO					//Usado para tokens n�o reconhecidos
-
+	SERRO,					//Usado para tokens n�o reconhecidos
+        SOPERACAOSOMA,             // Usado para identficar operação de soma
+        SOPERACAOSUBTRACAO,        // Usado para identficar operação de subtracao
+        SOPERACAOMULT,             // Usado para identficar operação de multiplicacao
+        SOPERACAODIV               // Usado para identficar operação de divisao
 }

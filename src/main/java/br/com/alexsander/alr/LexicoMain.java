@@ -11,6 +11,7 @@ import java.util.ArrayList;
  *
  * @author alexs
  * @author taywornath
+ * @author TeoFalleiro
  */
 
 public class LexicoMain {
