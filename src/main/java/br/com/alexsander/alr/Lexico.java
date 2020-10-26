@@ -80,7 +80,7 @@ public class Lexico {
 		case '7':
 		case '8':
 		case '9':
-			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')'){
+			while(ch != ' ' && ch != '\r' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')'){
 				lexema += String.valueOf(ch);
 				ch = leCh();
 			}
@@ -139,7 +139,7 @@ public class Lexico {
 		case 'y':
 		case 'z':
 			//while para formar as palavras
-			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')' && ch != ':'){
+			while(ch != ' ' && ch != '\r' && ch != ';' && ch != '\n' && ch != ',' && ch != '.' && ch != '(' && ch != ')' && ch != ':'){
 				lexema += String.valueOf(ch);
 				ch = leCh();
 			}
@@ -161,7 +161,7 @@ public class Lexico {
 			}
 		// Por padrão, irá retornar erro caso não encontrar tratamento
 		default:
-			return new Token(TipoToken.SERRO, lexema, linha, coluna);
+			return new Token(TipoToken.SERRO, String.valueOf(ch), linha, coluna - 1);
 		}
 
 	}
@@ -272,7 +272,7 @@ public class Lexico {
 			}
 
 			// Pula espaços em branco, tabs e nova linha
-			while (ch == ' ' || ch == '\n' || ch == '\t') {
+			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
 				ch = leCh();
 			}
 
