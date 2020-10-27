@@ -32,9 +32,9 @@ public enum TipoToken {
 	SIDENTIFICADOR,			//x, teste
 	SABRE_PARENTESIS,		//(
 	SFECHA_PARENTESIS,		//)
-	SERRO,					//Usado para tokens n�o reconhecidos
-        SOPERACAOSOMA,             // Usado para identficar operação de soma
-        SOPERACAOSUBTRACAO,        // Usado para identficar operação de subtracao
-        SOPERACAOMULT,             // Usado para identficar operação de multiplicacao
-        SOPERACAODIV               // Usado para identficar operação de divisao
+    SOPERACAOSOMA,             // Usado para identficar operacao de soma
+    SOPERACAOSUBTRACAO,        // Usado para identficar operacao de subtracao
+    SOPERACAOMULT,             // Usado para identficar operacao de multiplicacao
+    SOPERACAODIV,              // Usado para identficar operacao de divisao
+	SERRO					//Usado para tokens nao reconhecidos
 }
