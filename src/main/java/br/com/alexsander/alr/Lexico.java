@@ -14,6 +14,9 @@ import java.io.PushbackReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import alr1.TipoToken;
+import alr1.Token;
+
 /**
  *
  * @author alexs
@@ -150,6 +153,14 @@ public class Lexico {
 				return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("inteiro")){
 				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
+			}else if(lexema.equals("boolean")){
+				return new Token(TipoToken.SBOOLEAN, lexema, linha, coluna - lexema.length());
+			}else if(lexema.equals("float")){
+				return new Token(TipoToken.SFLOAT, lexema, linha, coluna - lexema.length());
+			}else if(lexema.equals("char")){
+				return new Token(TipoToken.SCHAR, lexema, linha, coluna - lexema.length());
+			}else if(lexema.equals("String")){
+				return new Token(TipoToken.SSTRING, lexema, linha, coluna - lexema.length());
 			}else{
 				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
 			}
