@@ -22,6 +22,10 @@ public enum TipoToken {
 	SVIRGULA,			//,
 	SESCREVA, 				//escreva
 	SINTEIRO,				//inteiro
+	SSTRING,				//string
+	SCHAR,					//char
+	SBOOLEAN,				//boolean
+	SFLOAT,					//float
 	SPONTO_E_VIRGULA, 		//;
 	SPONTO,				//.
 	SMAIS,				//+
