@@ -18,57 +18,48 @@ import java.util.ArrayList;
  *
  * @author alexs
  * @author taywornath
+ * @author TeoFalleiro
  */
 
 public class Lexico {
-
 	// Stream para leitura do arquivo
 	PushbackReader r;
-
-	// Lista de tokens
+	// Lista de tokens com array
 	ArrayList<Token> listaToken;
-
-	// Código do caracter sendo analisado
+	// Codigo do caracter sendo analisado
 	int intch;
-
 	// Caracter sendo analisado
 	char ch;
-        
-        private int coluna = 1; 
-        
-        private int linha = 1;
-        
+	//Cria��o e inicializa��o da linha e da coluna na primeira posi��o
+	private int coluna = 1;
+	private int linha = 1;
+
 	private Token buscaToken() {
 
 		// Lexema sendo construido
 		String lexema = "";
 
+		//Switch case para valiar o ch
 		switch (ch) {
 
-			// Caso for ;
+		// Caso for ;
 		case ';':
-			// Já posso retornar o token se for ; pois não tem outra composição
+			// Ja posso retornar o token se for ; pois nao tem outra composicao
 			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, coluna - 1);
 
 		// Caso for :
 		case ':':
-			// Pode ser definição de variável ou atribuição, lê próximo carac para decidir
+			// Pode ser definicao de variavel ou atribuicaoo, le� proximo carac para decidir
 			ch = leCh();
 			// Se for = significa que é uma atribuição
 			if (ch == '=')
 				return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna - 1);
-			// Se não, ele é uma definição de variável
+			// Se nao, ele e uma definição de variavel
 			else
 				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna - 1);
 
-			// Ver como fazer para identificar números, mais de 1 no mesmo case - OK
-			// Como retornar o próprio lexema, o número?
 
-			// Tentativa abaixo não reconheceu como número
-			// case '0' | '1' | '2'| '3' | '4' | '5' | '6' | '7' | '8' | '9':
-			// return new Token(TipoToken.SNUMERO, lexema, 0, 0);
-
-			// Segunda tentativa, case reconheceu como número, mas não retornou o lexema
+		// Validacao de entrada de numeros
 		case '0':
 		case '1':
 		case '2':
@@ -79,11 +70,15 @@ public class Lexico {
 		case '7':
 		case '8':
 		case '9':
-			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')'){
+			//Enquanto nao localizar algum destes caracteres
+			while(ch != ' ' && ch != '\r' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')'){
+				//Lexema ira receber o valor do ch lido
 				lexema += String.valueOf(ch);
 				ch = leCh();
 			}
+			//Senao vai devolver o ch lido
 			devolver();
+			//Devolvendo o lexema, sua linha e coluna descontando o tamanho do lexema
 			return new Token(TipoToken.SNUMERO, lexema, linha, coluna - lexema.length());
 
 		// Caso for (
@@ -93,13 +88,11 @@ public class Lexico {
 		// Caso for )
 		case ')':
 			return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, coluna - 1);
-
-
 		case '.':
 			return new Token(TipoToken.SPONTO, ".", linha, coluna - 1);
 		case ',':
 			return new Token(TipoToken.SVIRGULA, ",", linha, coluna - 1);
-		// Casos para Opera��es
+		// Casos para Operacoes
 		case '+':
 			return new Token(TipoToken.SMAIS, "+", linha, coluna - 1);
 		case '*':
@@ -108,7 +101,6 @@ public class Lexico {
 			return new Token(TipoToken.SMENOS, "-", linha, coluna - 1);
 		case '/':
 			return new Token(TipoToken.SDIVISAO, "/", linha, coluna - 1);
-
 
 		// Casos para palavras e letras	
 		case 'a':
@@ -137,16 +129,19 @@ public class Lexico {
 		case 'x':
 		case 'y':
 		case 'z':
-			//while para formar as palavras
-			while(ch != ' ' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')' && ch != ':'){
+			//While para formar e reconhecer as palavras , le ate que encontre algum ch abaixo
+			while(ch != ' ' && ch != '\r' && ch != ';' && ch != '\n' && ch != ',' && ch != '.' && ch != '(' && ch != ')' && ch != ':'){
 				lexema += String.valueOf(ch);
 				ch = leCh();
 			}
+			//Devolve o que foi encontrado
 			devolver();
+			
+			//if para reconhecer as palavras identificadoras, sempre retornando o
 			if(lexema.equals("programa")){
 				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("inicio")){
-				return new Token(TipoToken.SINICIO, lexema, linha, coluna);
+				return new Token(TipoToken.SINICIO, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("fim")){
 				return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("var")){
@@ -158,14 +153,56 @@ public class Lexico {
 			}else{
 				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
 			}
-		// Por padrão, irá retornar erro caso não encontrar tratamento
+		// Por padrao, ira retornar erro caso nao encontrar o tipo lexema cadastrado
 		default:
-			return new Token(TipoToken.SERRO, lexema, linha, coluna - 1);
+			return new Token(TipoToken.SERRO, String.valueOf(ch), linha, coluna - 1);
 		}
 
 	}
 
+/*	private int escreveResultado() {
+		int operacao;
+
+		ch = leCh();
+		coluna++;
+		if(ch == '1' || ch == '2' || ch == '3' || ch == '4' 
+     			|| ch == '5' || ch == '6' || ch == '7' || ch == '8'
+				|| ch == '9' || ch == '0') {
+				operacao = (int) ch;
+				ch = leCh();
+				coluna++;
+				switch (ch) {
+					case '+':
+						ch = leCh();
+						operacao += (int) ch;
+						lexema = String.valueOf(operacao);
+						return new Token(TipoToken.SOPERACAOSOMA, lexema, linha, coluna);
+					case '-':
+						ch = leCh();
+						operacao += (int) ch;
+						lexema = String.valueOf(operacao);
+						return new Token(TipoToken.SOPERACAOSUBTRACAO, lexema, linha, coluna);
+					case '*':
+						ch = leCh();
+						operacao += (int) ch;
+						lexema = String.valueOf(operacao);
+						return new Token(TipoToken.SOPERACAOMULT, lexema, linha, coluna);
+					default:
+						ch = leCh();
+						operacao += (int) ch;
+						lexema = String.valueOf(operacao);
+						return new Token(TipoToken.SOPERACAODIV, lexema, linha, coluna);
+					}
+			}
+
+		return operacao
+	}
+
+ 	*/
+	
+	//Criacao do metodo devolver
 	private void devolver() {
+		//Se for encontrado
 		if(ch == '\n'){
 			linha--;
 		}else{
@@ -178,6 +215,7 @@ public class Lexico {
 			e.printStackTrace();
 		}
 	}
+
 	private char leCh() {
 
 		// Tentativa de validar linha x coluna
@@ -194,7 +232,7 @@ public class Lexico {
 		}
 
                 // A cada nova linha soma uma linha - com base no caractere ASCii
-                if(intch == 10) { // 10 é o código ASCII do \n
+                if(intch == 10) { // 10 e o codigo ASCII do \n
                     linha++;
                     coluna = 1;
                 } else {
@@ -208,7 +246,7 @@ public class Lexico {
 
 	}
 
-	// Método analisa recebe nome do arquivo
+	// Metodo analisa recebe nome do arquivo
 	public ArrayList<Token> analisa(String arquivo) {
 
 		// Cria a lista de tokens
@@ -221,22 +259,22 @@ public class Lexico {
 			e.printStackTrace();
 		}
 
-		// Laço de repetição para percorrer o Stream todo
+		// Laco de repeticao para percorrer o Stream todo
 		while ((ch = leCh()) != '@') {
 
-			// Pula comentários do código Pascal/LPD
-			if (ch == '{') {
-				while (ch != '}') {
-					ch = leCh();
-				}
-			}
-
-			// Pula espaços em branco, tabs e nova linha
-			while (ch == ' ' || ch == '\n' || ch == '\t') {
+			// Pula espacos em branco, tabs e nova linha
+			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
+				// Pula comentarios do coigo Pascal/LPD
+				if (ch == '{') {
+					while (ch != '}') {
+						ch = leCh();
+					}
+				}else{
 				ch = leCh();
+				}				
 			}
 
-			// A cada volta do laço, enquanto não chegar no fim, determinado pelo caract @
+			// A cada volta do laco, enquanto nao chegar no fim, determinado pelo caract @
 			// Vai lendo token a token e adicionando na lista
 			listaToken.add(buscaToken());
 		}
