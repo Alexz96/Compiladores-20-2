@@ -264,16 +264,16 @@ public class Lexico {
 		// Laço de repetição para percorrer o Stream todo
 		while ((ch = leCh()) != '@') {
 
-			// Pula comentários do código Pascal/LPD
-			if (ch == '{') {
-				while (ch != '}') {
-					ch = leCh();
-				}
-			}
-
 			// Pula espaços em branco, tabs e nova linha
-			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
+			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
+				// Pula comentários do código Pascal/LPD
+				if (ch == '{') {
+					while (ch != '}') {
+						ch = leCh();
+					}
+				}else{
 				ch = leCh();
+				}				
 			}
 
 			// A cada volta do laço, enquanto não chegar no fim, determinado pelo caract @
