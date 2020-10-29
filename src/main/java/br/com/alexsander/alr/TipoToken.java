@@ -6,9 +6,12 @@
 package br.com.alexsander.alr;
 
 /**
- *
- * @author alexs
- */
+*
+* @author alexs
+* @author taywornath
+* @author TeoFalleiro
+*/
+
 public enum TipoToken {
 	SPROGRAMA, 			//programa
 	SVAR, 				//var
@@ -20,6 +23,10 @@ public enum TipoToken {
 	SVIRGULA,			//,
 	SESCREVA, 				//escreva
 	SINTEIRO,				//inteiro
+	SSTRING,               //string
+	SCHAR,                 //char
+	SBOOLEAN,				//boolean
+	SFLOAT,					//float
 	SPONTO_E_VIRGULA, 		//;
 	SPONTO,				//.
 	SMAIS,				//+
@@ -30,6 +37,9 @@ public enum TipoToken {
 	SIDENTIFICADOR,			//x, teste
 	SABRE_PARENTESIS,		//(
 	SFECHA_PARENTESIS,		//)
-	SERRO					//Usado para tokens não reconhecidos
-
+    SOPERACAOSOMA,             // Usado para identificar operacao de soma
+    SOPERACAOSUBTRACAO,        // Usado para identificar operacao de subtracao
+    SOPERACAOMULT,             // Usado para identificar operacao de multiplicacao
+    SOPERACAODIV,              // Usado para identificar operacao de divisao
+	SERRO					//Usado para tokens nao reconhecidos
 }
