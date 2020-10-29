@@ -52,12 +52,12 @@ public class Lexico {
 
 		// Caso for :
 		case ':':
-			// Pode ser definicao de variavel ou atribuicaoo, le� proximo carac para decidir
+			// Pode ser definicao de variavel ou atribuicaoo, le proximo carac para decidir
 			ch = leCh();
-			// Se for = significa que é uma atribuição
+			// Se for = significa que e uma atribuicaoo
 			if (ch == '=')
 				return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna - 1);
-			// Se nao, ele e uma definição de variavel
+			// Se nao, ele e uma definicao de variavel
 			else
 				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna - 1);
 
@@ -205,56 +205,48 @@ public class Lexico {
 						return new Token(TipoToken.SOPERACAODIV, lexema, linha, coluna);
 					}
 			}
-
 		return operacao
 	}
-
  	*/
+	
 	
 	//Criacao do metodo devolver
 	private void devolver() {
-		//Se for encontrado
-		if(ch == '\n'){
-			linha--;
-		}else{
-			coluna--;
-		}
 		try {
 			r.unread(ch);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//Se for encontrado quebra de linha, vai diminuir a linha, senao a coluna
+		if(ch == '\n'){
+			linha--;
+		}else{
+			coluna--;
+		}
+		
 	}
 
 	private char leCh() {
-
-		// Tentativa de validar linha x coluna
-		/*
+		/* Tentativa de validar linha x coluna
 		 * int linha = 0; int coluna = 0;
-		 * 
 		 * ch = leCh(); coluna++; if (ch == '\n') { linha++; coluna =0; }
-		 */
-                
+		 */      
 		try {
 			intch = r.read();
-		} catch (IOException ex) {
-			ex.printStackTrace();
+			if (intch != -1)
+				ch = (char) intch;
+			else
+				ch = '@';
+			if (ch == '\n') {
+				linha ++;
+				coluna = 0;
+			} else
+				coluna++;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-                // A cada nova linha soma uma linha - com base no caractere ASCii
-                if(intch == 10) { // 10 e o codigo ASCII do \n
-                    linha++;
-                    coluna = 1;
-                } else {
-                    coluna++;
-                }
-                
-		if (intch == -1)
-			return '@';
-		else
-			return (char) intch;
-
+		return ch;
 	}
 
 	// Metodo analisa recebe nome do arquivo
@@ -274,7 +266,7 @@ public class Lexico {
 		while ((ch = leCh()) != '@') {
 
 			// Pula espacos em branco, tabs e nova linha
-			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
+			while (ch == ' ' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
 				// Pula comentarios do coigo Pascal/LPD
 				if (ch == '{') {
 					while (ch != '}') {
