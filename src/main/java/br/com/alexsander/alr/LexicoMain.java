@@ -4,15 +4,17 @@
  * and open the template in the editor.
  */
 package br.com.alexsander.alr;
-
 import java.util.ArrayList;
 
 /**
- *
- * @author alexs
- * @author taywornath
- */
+*
+* @author alexs
+* @author taywornath
+* @author TeoFalleiro
+*/
 
+
+//Criacao da classe main
 public class LexicoMain {
 
     public static void main(String[] args) {
@@ -21,18 +23,17 @@ public class LexicoMain {
     	//Cria lista de tokens
         ArrayList<Token> lt = new ArrayList<Token>();
 
-        //Cria o analisador léxico
+        //Cria o analisador lexico
         Lexico lexico = new Lexico();
 
-        //Realiza a análise léxica
         //lexico.analisa(args[0]);
+        
+        //Realiza a analise lexica do arquivo parametrizado
         lt = lexico.analisa("teste1.lpd");
 
-        //Imprime número de tokens
-        System.out.println("Número de tokens: " + lt.size());
+        //Imprime numero de tokens
+        System.out.println("Numero de tokens: " + lt.size());
 
         //Percorre lista de tokens imprimindo-os
         lt.forEach(token -> System.out.println(token.toString()));
     }
-
-}
