@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package br.com.alexsander.alr;
-
 import java.util.ArrayList;
 
 
@@ -40,5 +39,3 @@ public class LexicoMain {
   }
 
 }
-
-
