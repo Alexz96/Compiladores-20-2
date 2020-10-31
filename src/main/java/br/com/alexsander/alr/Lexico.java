@@ -20,22 +20,26 @@ import alr1.Token;
  *
  * @author alexs
  * @author taywornath
- * @author TeoFalleiro
  */
 
 public class Lexico {
+
 	// Stream para leitura do arquivo
 	PushbackReader r;
-	// Lista de tokens com array
+
+	// Lista de tokens
 	ArrayList<Token> listaToken;
-	// Codigo do caracter sendo analisado
+
+	// Código do caracter sendo analisado
 	int intch;
+
 	// Caracter sendo analisado
 	char ch;
-	//Cria��o e inicializa��o da linha e da coluna na primeira posi��o
-	private int coluna = 1;
-	private int linha = 1;
-
+        
+        private int coluna = 1; 
+        
+        private int linha = 1;
+        
 	private Token buscaToken() {
 
 		// Lexema sendo construido quando for um id ou palavra chave
@@ -165,6 +169,11 @@ public class Lexico {
 	*/
 
 	private void devolver() {
+		if(ch == '\n'){
+			linha--;
+		}else{
+			coluna--;
+		}
 		try {
 			r.unread(ch);
 		} catch (IOException e) {
@@ -172,7 +181,6 @@ public class Lexico {
 			e.printStackTrace();
 		}
 	}
-
 	private char leCh() {
 
 		// Tentativa de validar linha x coluna
@@ -187,10 +195,23 @@ public class Lexico {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		return ch;
+
+                // A cada nova linha soma uma linha - com base no caractere ASCii
+                if(intch == 10) { // 10 é o código ASCII do \n
+                    linha++;
+                    coluna = 1;
+                } else {
+                    coluna++;
+                }
+                
+		if (intch == -1)
+			return '@';
+		else
+			return (char) intch;
+
 	}
 
-	// Metodo analisa recebe nome do arquivo
+	// Método analisa recebe nome do arquivo
 	public ArrayList<Token> analisa(String arquivo) {
 
 		// Cria a lista de tokens

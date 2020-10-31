@@ -8,8 +8,6 @@ package br.com.alexsander.alr;
 /**
  *
  * @author alexs
- * @author taywornath
- * @author TeoFalleiro
  */
 public class Token {
     TipoToken tipo;
