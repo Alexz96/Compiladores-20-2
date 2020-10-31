@@ -30,7 +30,7 @@ public class Lexico {
 	int intch;
 	// Caracter sendo analisado
 	char ch;
-	//Criação e inicialização da linha e da coluna na primeira posição
+	//Criaï¿½ï¿½o e inicializaï¿½ï¿½o da linha e da coluna na primeira posiï¿½ï¿½o
 	private int coluna = 1;
 	private int linha = 1;
 
@@ -49,7 +49,7 @@ public class Lexico {
 
 		// Caso for :
 		case ':':
-			// Pode ser definicao de variavel ou atribuicaoo, leª proximo carac para decidir
+			// Pode ser definicao de variavel ou atribuicaoo, leï¿½ proximo carac para decidir
 			ch = leCh();
 			// Se for = significa que Ã© uma atribuiÃ§Ã£o
 			if (ch == '=')
@@ -260,7 +260,7 @@ public class Lexico {
 		}
 
 		// Laco de repeticao para percorrer o Stream todo
-		while ((ch = leCh()) != '@') {
+		while ((ch = leCh()) != '@') { // Enquanto nÃ£o chegou no fim do arquivo
 
 			// Pula espacos em branco, tabs e nova linha
 			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
