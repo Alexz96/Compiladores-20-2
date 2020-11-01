@@ -13,9 +13,6 @@ import java.io.PushbackReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import alr1.TipoToken;
-import alr1.Token;
-
 /**
  *
  * @author alexs
@@ -166,31 +163,25 @@ public class Lexico {
 		}
 
 	}
-	*/
 
 	private void devolver() {
-		if(ch == '\n'){
-			linha--;
-		}else{
-			coluna--;
-		}
+		
 		try {
 			r.unread(ch);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+                
+                // Se for encontrado quebra de linha, vai diminuir a linha, senao a coluna
+		if (ch == '\n') {
+			linha--;
+		} else {
+			coluna--;
+		}
 	}
 	private char leCh() {
-
-		// Tentativa de validar linha x coluna
-		/*
-		 * int linha = 0; int coluna = 0;
-		 * 
-		 * ch = leCh(); coluna++; if (ch == '\n') { linha++; coluna =0; }
-		 */
-                
-		try {
+            try {
 			intch = r.read();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -208,7 +199,6 @@ public class Lexico {
 			return '@';
 		else
 			return (char) intch;
-
 	}
 
 	// Método analisa recebe nome do arquivo
@@ -227,16 +217,16 @@ public class Lexico {
 		// Laço de repetição para percorrer o Stream todo
 		while ((ch = leCh()) != '@') {
 
-			// Pula comentários do código Pascal/LPD
-			if (ch == '{') {
-				while (ch != '}') {
+			// Pula espacos em branco, tabs e nova linha
+			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
+				// Pula comentarios do coigo Pascal/LPD
+				if (ch == '{') {
+					while (ch != '}') {
+						ch = leCh();
+					}
+				} else {
 					ch = leCh();
 				}
-			}
-
-			// Pula espaços em branco, tabs e nova linha
-			while (ch == ' ' || ch == '\n' || ch == '\t') {
-				ch = leCh();
 			}
 
 			// A cada volta do laço, enquanto não chegar no fim, determinado pelo caract @
