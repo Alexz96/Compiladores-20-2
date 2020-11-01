@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.alexsander.alr;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,6 +12,7 @@ import java.util.ArrayList;
  *
  * @author alexs
  * @author taywornath
+ * @author TeoFalleiro
  */
 
 public class Lexico {
@@ -143,19 +139,21 @@ public class Lexico {
 			}
 			devolver();
 			if(lexema.equals("programa")){
-				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
+                            return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("inicio")){
-				return new Token(TipoToken.SINICIO, lexema, linha, coluna);
+                            return new Token(TipoToken.SINICIO, lexema, linha, coluna);
 			}else if(lexema.equals("fim")){
-				return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
+                            return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("var")){
-				return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
+                            return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("escreva")){
-				return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
+                            return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
 			}else if(lexema.equals("inteiro")){
-				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
-			}else{
-				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
+                            return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
+			} else if(lexema.equals("booleano")) {
+                            return new Token(TipoToken.SBOOLEANO, lexema, linha, coluna - lexema.length());
+                        } else{
+                            return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
 			}
 		// Por padrão, irá retornar erro caso não encontrar tratamento
 		default:
@@ -215,7 +213,7 @@ public class Lexico {
 		}
 
 		// Laço de repetição para percorrer o Stream todo
-		while ((ch = leCh()) != '@') {
+		while ((ch = leCh()) != '@') { // Enquanto não chegou no fim do arquivo
 
 			// Pula espacos em branco, tabs e nova linha
 			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
