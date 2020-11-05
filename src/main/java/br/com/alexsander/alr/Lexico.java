@@ -14,9 +14,6 @@ import java.io.PushbackReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import alr1.TipoToken;
-import alr1.Token;
-
 /**
  *
  * @author alexs
@@ -33,184 +30,165 @@ public class Lexico {
 	int intch;
 	// Caracter sendo analisado
 	char ch;
-	//Criação e inicialização da linha e da coluna na primeira posição
-	private int coluna = 1;
+	// Criação e inicialização da linha e da coluna na primeira posição
+	private int coluna = 0;
 	private int linha = 1;
+	private int parenteses = 0; // contador para verificar se parenteses estão balanceados
 
 	private Token buscaToken() {
 
-		// Lexema sendo construido
+		// Lexema sendo construido quando for um id ou palavra chave
 		String lexema = "";
 
-		//Switch case para valiar o ch
-		switch (ch) {
+		// Estado corrente do AFD
+		int estado = 0;
 
-		// Caso for ;
-		case ';':
-			// Ja posso retornar o token se for ; pois nao tem outra composicao
-			return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, coluna - 1);
+		// Coluna iniciar do lexema que está sendo lido
+		int col = 0;
 
-		// Caso for :
-		case ':':
-			// Pode ser definicao de variavel ou atribuicaoo, le proximo carac para decidir
-			ch = leCh();
-			// Se for = significa que e uma atribuicaoo
-			if (ch == '=')
-				return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna - 1);
-			// Se nao, ele e uma definicao de variavel
-			else
-				return new Token(TipoToken.SDOISPONTOS, ":", linha, coluna - 1);
+		// Switch case para validar o ch
+		// switch (ch) {
 
-
-		// Validacao de entrada de numeros
-		case '0':
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-		case '9':
-			//Enquanto nao localizar algum destes caracteres
-			while(ch != ' ' && ch != '\r' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '(' && ch != ')'){
-				//Lexema ira receber o valor do ch lido
-				lexema += String.valueOf(ch);
-				ch = leCh();
-			}
-			//Senao vai devolver o ch lido
-			devolver();
-			//Devolvendo o lexema, sua linha e coluna descontando o tamanho do lexema
-			return new Token(TipoToken.SNUMERO, lexema, linha, coluna - lexema.length());
-
-		// Caso for (
-		case '(':
-			// Retorna o token... e assim por diante
-			return new Token(TipoToken.SABRE_PARENTESIS, "(", linha, coluna - 1);
-		// Caso for )
-		case ')':
-			return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, coluna - 1);
-		case '.':
-			return new Token(TipoToken.SPONTO, ".", linha, coluna - 1);
-		case ',':
-			return new Token(TipoToken.SVIRGULA, ",", linha, coluna - 1);
-		// Casos para Operacoes
-		case '+':
-			return new Token(TipoToken.SMAIS, "+", linha, coluna - 1);
-		case '*':
-			return new Token(TipoToken.SMULTIPLICACAO, "*", linha, coluna - 1);
-		case '-':
-			return new Token(TipoToken.SMENOS, "-", linha, coluna - 1);
-		case '/':
-			return new Token(TipoToken.SDIVISAO, "/", linha, coluna - 1);
-
-		// Casos para palavras e letras	
-		case 'a':
-		case 'b':
-		case 'c':
-		case 'd':
-		case 'e':
-		case 'f':
-		case 'g':
-		case 'h':
-		case 'i':
-		case 'j':
-		case 'k':
-		case 'l':
-		case 'm':
-		case 'n':
-		case 'o':
-		case 'p':
-		case 'q':
-		case 'r':
-		case 's':
-		case 't':
-		case 'u':
-		case 'v':
-		case 'w':
-		case 'x':
-		case 'y':
-		case 'z':
-			//While para formar e reconhecer as palavras , le ate que encontre algum ch abaixo
-			while(ch != ' ' && ch != '\r' && ch != ';' && ch != '\n' && ch != ',' && ch != '.' && ch != '(' && ch != ')' && ch != ':'){
-				lexema += String.valueOf(ch);
-				ch = leCh();
-			}
-			//Devolve o que foi encontrado
-			devolver();
+		// Enquanto não encontrar o final
+		while (ch != '@') {
+			// Switch case para validar o estado 			
+			switch (estado) {
 			
-			//if para reconhecer as palavras identificadoras, sempre retornando o
-			if(lexema.equals("programa")){
-				return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("inicio")){
-				return new Token(TipoToken.SINICIO, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("fim")){
-				return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("var")){
-				return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("escreva")){
-				return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("inteiro")){
-				return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("boolean")){
-				return new Token(TipoToken.SBOOLEAN, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("float")){
-				return new Token(TipoToken.SFLOAT, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("char")){
-				return new Token(TipoToken.SCHAR, lexema, linha, coluna - lexema.length());
-			}else if(lexema.equals("String")){
-				return new Token(TipoToken.SSTRING, lexema, linha, coluna - lexema.length());
-			}else{
-				return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
-			}
-		// Por padrao, ira retornar erro caso nao encontrar o tipo lexema cadastrado
-		default:
-			return new Token(TipoToken.SERRO, String.valueOf(ch), linha, coluna - 1);
-		}
-
-	}
-
-/*	private int escreveResultado() {
-		int operacao;
-
-		ch = leCh();
-		coluna++;
-		if(ch == '1' || ch == '2' || ch == '3' || ch == '4' 
-     			|| ch == '5' || ch == '6' || ch == '7' || ch == '8'
-				|| ch == '9' || ch == '0') {
-				operacao = (int) ch;
-				ch = leCh();
-				coluna++;
-				switch (ch) {
-					case '+':
-						ch = leCh();
-						operacao += (int) ch;
-						lexema = String.valueOf(operacao);
-						return new Token(TipoToken.SOPERACAOSOMA, lexema, linha, coluna);
-					case '-':
-						ch = leCh();
-						operacao += (int) ch;
-						lexema = String.valueOf(operacao);
-						return new Token(TipoToken.SOPERACAOSUBTRACAO, lexema, linha, coluna);
-					case '*':
-						ch = leCh();
-						operacao += (int) ch;
-						lexema = String.valueOf(operacao);
-						return new Token(TipoToken.SOPERACAOMULT, lexema, linha, coluna);
-					default:
-						ch = leCh();
-						operacao += (int) ch;
-						lexema = String.valueOf(operacao);
-						return new Token(TipoToken.SOPERACAODIV, lexema, linha, coluna);
+			case 0:
+				col = coluna;
+				if		(ch == '{'){ 
+					estado = 16;
+					break;
+				}
+				else if (ch == ':'){
+					estado = 1;
+					break;
+				}
+				//else if (ch == '(') estado = 2;
+				else if (ch == '+') return new Token(TipoToken.SMAIS, "+", linha, col);
+				else if (ch == '-') return new Token(TipoToken.SMENOS, "-", linha, col);
+				else if (ch == '*') return new Token(TipoToken.SMULTIPLICACAO, "*", linha, col);
+				else if (ch == '/') return new Token(TipoToken.SDIVISAO, "/", linha, col);
+				else if (ch == ';'){
+					if(parenteses != 0)
+						System.out.printf("Parenteses não estão balanceados na linha: %d \n", linha);
+						parenteses = 0;
+						return new Token(TipoToken.SPONTO_E_VIRGULA, ";", linha, col);
 					}
-			}
-		return operacao
+				else if (ch == ',') return new Token(TipoToken.SVIRGULA, ",", linha, col);
+				else if (ch == '.') return new Token(TipoToken.SPONTO, ".", linha, col);
+				else if (ch == '('){
+					parenteses++;
+					return new Token(TipoToken.SABRE_PARENTESIS, "(", linha, col);
+					}
+				else if (ch == ')'){
+					parenteses--;
+					return new Token(TipoToken.SFECHA_PARENTESIS, ")", linha, col);
+					}
+				else if (ch == '0' || ch == '1' || ch == '2' || ch == '3' || ch == '4' || ch == '5'|| ch == '6' || ch == '7' || ch == '8' || ch == '9'){
+					estado = 2;
+					break;
+				}
+				else if(ch == 'a' || ch == 'b' || ch == 'c' || ch == 'd' || ch == 'e' || ch == 'f'|| ch == 'g' || ch == 'h' || ch == 'i' || ch == 'j' || ch == 'k' || ch == 'l' || ch == 'm' || ch == 'n' || ch == 'o' || ch == 'p' || ch == 'q' || ch == 'r' || ch == 's' || ch == 't' || ch == 'u' || ch == 'v' || ch == 'w' || ch == 'x' || ch == 'y' || ch == 'z'){
+					estado = 3;
+					break;
+				}
+			
+			case 1:
+				if (ch == '=') {
+					estado = 0;
+					return new Token(TipoToken.SATRIBUICAO, ":=", linha, coluna);
+				}else{
+					//devolver();
+					estado  = 0;
+					return new Token(TipoToken.STIPO, ":", linha, coluna);
+				}
+			case 2:
+				while (ch != ' ' && ch != '\r' && ch != '\n' && ch != ';' && ch != ',' && ch != '.' && ch != '('
+				&& ch != ')' && ch != '+' && ch != '-' && ch != '*' && ch != '/') {
+						// Lexema ira receber o valor do ch lido
+						lexema += String.valueOf(ch);
+						ch = leCh();
+				}
+				// Senao vai devolver o ch lido
+				devolver();
+				estado = 0;
+				// Devolvendo o lexema, sua linha e coluna descontando o tamanho do lexema
+				return new Token(TipoToken.SNUMERO, lexema, linha, col);
+			case 3:
+				// While para formar e reconhecer as palavras , le ate que encontre algum ch
+				// abaixo
+				while (ch != ' ' && ch != '\r' && ch != ';' && ch != '\n' && ch != ',' && ch != '.' && ch != '('
+						&& ch != ')' && ch != ':') {
+					lexema += String.valueOf(ch);
+					ch = leCh();
+				}
+				// Devolve o que foi encontrado
+				devolver();
+				estado = 0;
+				// if para reconhecer as palavras identificadoras, sempre retornando o
+				if (lexema.equals("programa")) {
+					return new Token(TipoToken.SPROGRAMA, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("inicio")) {
+					return new Token(TipoToken.SINICIO, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("fim")) {
+					return new Token(TipoToken.SFIM, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("var")) {
+					return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("escreva")) {
+					return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("inteiro")) {
+					return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
+				/**} else if (lexema.equals("boolean")) {
+					return new Token(TipoToken.SBOOLEAN, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("float")) {
+					return new Token(TipoToken.SFLOAT, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("char")) {
+					return new Token(TipoToken.SCHAR, lexema, linha, coluna - lexema.length());
+				} else if (lexema.equals("String")) {
+					return new Token(TipoToken.SSTRING, lexema, linha, coluna - lexema.length());
+				*/} else {
+					return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
+				}
+			/*	
+			case 2:
+				while (ch!= ')') leCh();
+				estado = 0;
+				break;
+			*/	
+				
+			
+			case 16:
+				while (ch!= '}') leCh();
+				estado = 0;
+				break;
+				
+			} //Fim switch
+			//leCh();
+		} //Fim while
+		return new Token(TipoToken.SERRO,"", linha, coluna);
+		
 	}
- 	*/
-	
-	
-	//Criacao do metodo devolver
+				
+			
+
+	/*
+	 * private int escreveResultado() { int operacao;
+	 * 
+	 * ch = leCh(); coluna++; if(ch == '1' || ch == '2' || ch == '3' || ch == '4' ||
+	 * ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9' || ch == '0') {
+	 * operacao = (int) ch; ch = leCh(); coluna++; switch (ch) { case '+': ch =
+	 * leCh(); operacao += (int) ch; lexema = String.valueOf(operacao); return new
+	 * Token(TipoToken.SOPERACAOSOMA, lexema, linha, coluna); case '-': ch = leCh();
+	 * operacao += (int) ch; lexema = String.valueOf(operacao); return new
+	 * Token(TipoToken.SOPERACAOSUBTRACAO, lexema, linha, coluna); case '*': ch =
+	 * leCh(); operacao += (int) ch; lexema = String.valueOf(operacao); return new
+	 * Token(TipoToken.SOPERACAOMULT, lexema, linha, coluna); default: ch = leCh();
+	 * operacao += (int) ch; lexema = String.valueOf(operacao); return new
+	 * Token(TipoToken.SOPERACAODIV, lexema, linha, coluna); } } return operacao }
+	 */
+
+	// Criacao do metodo devolver
 	private void devolver() {
 		try {
 			r.unread(ch);
@@ -218,35 +196,43 @@ public class Lexico {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//Se for encontrado quebra de linha, vai diminuir a linha, senao a coluna
-		if(ch == '\n'){
+		// Se for encontrado quebra de linha, vai diminuir a linha, senao a coluna
+		if (ch == '\n') {
 			linha--;
-		}else{
+		} else {
 			coluna--;
 		}
-		
+
 	}
 
 	private char leCh() {
-		/* Tentativa de validar linha x coluna
+
+		// Tentativa de validar linha x coluna
+		/*
 		 * int linha = 0; int coluna = 0;
+		 * 
 		 * ch = leCh(); coluna++; if (ch == '\n') { linha++; coluna =0; }
-		 */      
+		 */
+                
 		try {
 			intch = r.read();
-			if (intch != -1)
-				ch = (char) intch;
-			else
-				ch = '@';
-			if (ch == '\n') {
-				linha ++;
-				coluna = 0;
-			} else
-				coluna++;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
-		return ch;
+
+                // A cada nova linha soma uma linha - com base no caractere ASCii
+                if(intch == 10) { // 10 Ã© o cÃ³digo ASCII do \n
+                    linha++;
+                    coluna = 1;
+                } else {
+                    coluna++;
+                }
+                
+		if (intch == -1)
+			return '@';
+		else
+			return (char) intch;
+
 	}
 
 	// Metodo analisa recebe nome do arquivo
@@ -263,18 +249,18 @@ public class Lexico {
 		}
 
 		// Laco de repeticao para percorrer o Stream todo
-		while ((ch = leCh()) != '@') {
+		 while ((ch = leCh()) != '@') {
 
 			// Pula espacos em branco, tabs e nova linha
-			while (ch == ' ' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
+			while (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' || ch == '}' || ch == '{') {
 				// Pula comentarios do coigo Pascal/LPD
 				if (ch == '{') {
 					while (ch != '}') {
 						ch = leCh();
 					}
-				}else{
-				ch = leCh();
-				}				
+				} else {
+					ch = leCh();
+				}
 			}
 
 			// A cada volta do laco, enquanto nao chegar no fim, determinado pelo caract @
