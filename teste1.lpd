@@ -7,10 +7,10 @@ r: inteiro;
 { Este é um comentário }
 
 inicio
-x := 3;
-y := 5;
-r := (x + 7) * y;
-    escreva r;
-escreva 5;
-escreva 2 + 2;
+	x := 3;
+	y := 5;
+	r := (x + 7) * y;
+	escreva r;
+	escreva 5;
+	escreva 2 + 2;
 fim.

@@ -26,6 +26,7 @@ public enum TipoToken {
 	SIDENTIFICADOR,			//x, teste
 	SABRE_PARENTESIS,		//(
 	SFECHA_PARENTESIS,		//)
+        SOPERACAO,                      // Usado para identificar uma operacao
 	SERRO				//Usado para tokens nao reconhecidos
 
 }

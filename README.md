@@ -2,7 +2,8 @@
 **Trabalho - Analisador Sintático**
 
 Requisito:
-IDE que suporte a Linguagem de Progamação Java. Exemplo de algumas delas: NetBeans, Eclipse, IntelliJ.
+- IDE que suporte a Linguagem de Progamação Java. Exemplo de algumas delas: NetBeans, Eclipse, IntelliJ.
+- JDK mínimo: 1.8
 
 Instruções de Execução do Algoritmo:
 - No repositório "Compiladores-20-2", baixar o projeto como arquivo .zip.
