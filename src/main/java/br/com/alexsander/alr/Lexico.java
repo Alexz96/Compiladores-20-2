@@ -160,18 +160,18 @@ public class Lexico {
             } //Fim switch
             //leCh();
         } //Fim while
-        return new Token(TipoToken.SERRO, "", linha, coluna);
+        return new Token(TipoToken.SERRO, " ", linha, coluna);
 
     }
 
     // funcao incompleta, acredito que sera necessario lidar melhor com questoes do operando e operador
     // criando um novo metodo para gerenciar isto com base nos ch lidos
-    public int escreveResultado() {
+    public Token escreveResultado() {
 
-        int operacao = 0;
+        int operador1 = 0;
+        int operador2 = 0;
         int resultado = 0;
-        // Criacao de variavel interna na funcao para nao dar confusao no ch
-
+        
         ch = leCh();
         coluna++;
 
@@ -179,35 +179,32 @@ public class Lexico {
             ch = leCh();
             // se for identificado que o caracter seguinte eh numero, faz os calculos 
             if (Character.isDigit(ch)) {
-                operacao = (int) ch;
+                operador1 = (int) ch;
                 ch = leCh();
                 coluna++;
                 switch (ch) {
                     case '/':
-                        ch = leCh();
-                        operacao = operacao / ch;
-                        resultado = operacao;
-                    case '-':
-                        ch = leCh();
-                        operacao -= ch;
-                        resultado = operacao;
+                        break;
                     case '*':
+                        break;
+                    case '-':
+                        break;
+                    case '+':
                         ch = leCh();
-                        operacao = operacao * ch;
-                        resultado = operacao;
-                    default: // caso default e a soma
-                        ch = leCh();
-                        operacao += ch;
-                        resultado = operacao;
+                        coluna++;
+                        if(Character.isDigit(ch)) operador2 = (int) ch;
+                        System.out.println(ch);
+                        resultado = soma(operador1, operador2);
+                        break;
+                    default:
+                        break;
                 }
             } else {
-                System.out.println(ch);
-                System.out.println("Operação não permitida");
-                return 0;
+                System.out.println("Não posso realizar esta operação.");
             }
         }
-
-        return resultado;
+        
+        return new Token(TipoToken.SNUMERO, String.valueOf(ch), linha, coluna);
     }
 
     // Criacao do metodo devolver
@@ -293,5 +290,31 @@ public class Lexico {
 
         // Retorna a lista de token pro programa principal LexicoMain
         return listaToken;
+    }
+    
+    // Metodo para lidar com a operacao de soma
+    public int soma(int operadorA, int operadorB) {
+        return operadorA + operadorB;
+    }
+    
+    // Metodo para lidar com a operacao de subtracao
+    public int subtrai(int operadorA, int operadorB) {
+        return operadorA + operadorB;
+    }
+    
+    // Metodo para lidar com a operacao de multiplicacao
+    public int multiplica(int operadorA, int operadorB) {
+        return operadorA * operadorB;
+    }
+    
+    // Metodo para lidar com a operacao de divisao
+    public int divide(int operadorA, int operadorB) {
+        
+        if(operadorB == 0) {
+            System.out.println("Impossível dividir por zero!");
+            return 0;
+        }
+        
+        return operadorA / operadorB;
     }
 }
