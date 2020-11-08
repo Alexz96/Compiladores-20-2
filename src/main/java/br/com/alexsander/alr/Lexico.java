@@ -44,9 +44,7 @@ public class Lexico {
         // Coluna iniciar do lexema que est� sendo lido
         int col = 0;
 
-        // Switch case para validar o ch
-        // switch (ch) {
-        // Enquanto n�o encontrar o final
+        // Enquanto nao encontrar o final identificado por @ vai ler e identificar ch
         while (ch != '@') {
             // Switch case para validar o estado 			
             switch (estado) {
@@ -143,12 +141,6 @@ public class Lexico {
                     } else {
                         return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
                     }
-                /*	
-			case 2:
-				while (ch!= ')') leCh();
-				estado = 0;
-				break;
-                 */
 
                 case 16:
                     while (ch != '}') {
@@ -157,11 +149,9 @@ public class Lexico {
                     estado = 0;
                     break;
 
-            } //Fim switch
-            //leCh();
+            }
         } //Fim while
         return new Token(TipoToken.SERRO, " ", linha, coluna);
-
     }
 
     // funcao incompleta, acredito que sera necessario lidar melhor com questoes do operando e operador
@@ -225,14 +215,8 @@ public class Lexico {
 
     }
 
+    //Criacao do metodo leCh
     private char leCh() {
-
-        // Tentativa de validar linha x coluna
-        /*
-		 * int linha = 0; int coluna = 0;
-		 * 
-		 * ch = leCh(); coluna++; if (ch == '\n') { linha++; coluna =0; }
-         */
         try {
             intch = r.read();
         } catch (IOException ex) {
@@ -252,7 +236,6 @@ public class Lexico {
         } else {
             return (char) intch;
         }
-
     }
 
     // Método analisa recebe nome do arquivo
