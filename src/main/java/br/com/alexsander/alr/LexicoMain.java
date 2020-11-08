@@ -24,8 +24,7 @@ public class LexicoMain {
         //Cria o analisador léxico
         Lexico lexico = new Lexico();
 
-        //Realiza a análise léxica
-        //lexico.analisa(args[0]);
+        //Realiza a análise léxica do arquivo com o respectivo nome
         lt = lexico.analisa("teste1.lpd");
 
         //Imprime número de tokens
