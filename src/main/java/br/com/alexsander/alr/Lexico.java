@@ -32,6 +32,9 @@ public class Lexico {
     private int coluna = 0;
     private int linha = 1;
     private int parenteses = 0; // contador para verificar se parenteses estao balanceados
+    
+    // Instanciação da tabela de simbolos
+    TabelaDeSimbolos ts = new TabelaDeSimbolos();
 
     private Token buscaToken() {
 
@@ -139,7 +142,11 @@ public class Lexico {
                     } else if (lexema.equals("booleano")) {
                         return new Token(TipoToken.SBOOLEANO, lexema, linha, coluna - lexema.length());
                     } else {
-                        return new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
+                        Chave chave = new Chave("Programa", "IDENTIFICADOR", lexema);
+                        Token token = new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
+                        ts.addTokenNaTS(chave, token);
+                        System.out.println("Tabela de simbolos por enquanto: " + ts.getToken(chave));
+                        return token;
                     }
 
                 case 16:
