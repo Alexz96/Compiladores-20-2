@@ -18,3 +18,5 @@ Instruções para execução do projeto dentro da IDE:
 - Será realizada a execução do código com base no arquivo "teste1.lpd" que está disponível na estrutura dos pacotes e se desejar realizar alguma alteração ou adição para testes, basta abrir o mesmo, fazer a edição e salvar o arquivo. Após isso, basta compilar o projeto novamente.
 
 Neste trabalho nos desafiamos e encontramos muitas condições das quais não havíamos encontrado a solução para atender ao requisito até o presente momento, desta forma, algumas das tentativas executadas e solicitadas, não obtivemos sucesso.
+
+De modo geral, o Analisador Léximo é capaz de reconhecer os tokens do programa, inseri-los em uma lista de tokens (tabela de símbolos simplificada) com cada registro contendo sei respetivo tipo, lexema, linha e coluna de início do token. Através dele, é possível receber o nome de um arquivo texto com o código fonte e fazer a leitura e apresentação da lista de tokens ao final.
