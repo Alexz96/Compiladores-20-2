@@ -36,7 +36,7 @@ public class Lexico {
     // Instanciação da tabela de simbolos
     TabelaDeSimbolos ts = new TabelaDeSimbolos();
 
-    private Token buscaToken() {
+    public Token buscaToken() {
 
         // Lexema sendo construido quando for um id ou palavra chave
         String lexema = "";
