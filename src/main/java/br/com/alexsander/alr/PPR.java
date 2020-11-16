@@ -37,7 +37,6 @@ public class PPR extends Parser {
     		
     		if (token.tipo == TipoToken.SIDENTIFICADOR) {
     			System.out.print(token.tipo +": " + token.lexema + ' ');
-    			buscaToken();
     			//Adiciona identificador na tabela de simbolos
     			ts.ts.put(key, value);
     			buscaToken();
