@@ -1,6 +1,7 @@
-package br.com.alexsander.alr;
+package alr1;
 
-import br.com.alexsander.alr.TipoToken;
+import java.io.IOException;
+
 
 /**
  *
@@ -30,35 +31,35 @@ public class PPR extends Parser {
     	
     	buscaToken();
     	
-    	if (t.tipo == TipoToken.SPROGRAMA) {
+    	if (token.tipo == TipoToken.SPROGRAMA) {
     		System.out.print (token.tipo + "");
     		buscaToken();
     		
-    		if (t.tipo == TipoToken.SIDENTIFICADOR) {
-    			System.out.print(t.tipo +": " + t.c + ' ');
+    		if (token.tipo == TipoToken.SIDENTIFICADOR) {
+    			System.out.print(token.tipo +": " + token.lexema + ' ');
     			buscaToken();
     			//Adiciona identificador na tabela de simbolos
-    			ts.ts.put(c, t);
+    			ts.ts.put(key, value);
     			buscaToken();
     			
-    			if (t.tipo == TipoToken.SPONTO_E_VIRGULA) {
-    				System.out.print(t.tipo + " ");
+    			if (token.tipo == TipoToken.SPONTO_E_VIRGULA) {
+    				System.out.print(token.tipo + " ");
     				if (analisaBloco()) {
     					buscaToken();
-    					if (t.tipo == TipoToken.SPONTO)
-    						System.out.print(T.tipo + " ");
+    					if (token.tipo == TipoToken.SPONTO)
+    						System.out.print(token.tipo + " ");
     						return true;
     				}else {
-    					System.out.println("Bloco principal nao encontrado: " +t.linha +", " +t.coluna);
+    					System.out.println("Bloco principal nao encontrado: " +token.linha +", " +token.coluna);
     					return false;
     				}
     			}else {
-    				System.out.println("Ponto e virgula esperado: " +t.linha +", " +t.coluna);
+    				System.out.println("Ponto e virgula esperado: " +token.linha +", " +token.coluna);
 					return false;
     			}
     		}
     	}else {
-    		System.out.println("Identificador esperado: " +t.linha +", " +t.coluna);
+    		System.out.println("Identificador esperado: " +token.linha +", " +token.coluna);
 			return false;
     	}
     }
