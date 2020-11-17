@@ -38,7 +38,8 @@ public class PPR extends Parser {
     		if (token.tipo == TipoToken.SIDENTIFICADOR) {
     			System.out.print(token.tipo +": " + token.lexema + ' ');
     			//Adiciona identificador na tabela de simbolos
-    			ts.ts.put(key, value);
+    			Chave chave = new Chave("programa", token.tipo, token.lexema);
+                ts.ts.put(chave, token);
     			buscaToken();
     			
     			if (token.tipo == TipoToken.SPONTO_E_VIRGULA) {
