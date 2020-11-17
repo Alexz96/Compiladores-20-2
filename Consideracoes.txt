@@ -1,0 +1,1 @@
+Se for implementado algo além do requisito mínimo, deve ser descrito neste arquivo
