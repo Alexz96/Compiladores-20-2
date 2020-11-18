@@ -12,7 +12,7 @@ package br.com.alexsander.alr;
 public class Chave {
     
     private String escopo;
-    private String tipo;
+    private TipoToken tipo;
     private String lexema;
 
     /**
@@ -32,14 +32,14 @@ public class Chave {
     /**
      * @return the tipo
      */
-    public String getTipo() {
+    public TipoToken getTipo() {
         return tipo;
     }
 
     /**
      * @param tipo the tipo to set
      */
-    public void setTipo(String tipo) {
+    public void setTipo(TipoToken tipo) {
         this.tipo = tipo;
     }
 
@@ -57,10 +57,10 @@ public class Chave {
         this.lexema = lexema;
     }
     
-    public Chave(String escopoParametro, String tipoParametro, String lexemaParametro) {
-        setEscopo(escopoParametro);
-        setTipo(tipoParametro);
-        setLexema(lexemaParametro);
+    public Chave(String escopoParametro, TipoToken tipoParametro, String lexemaParametro) {
+        this.escopo = escopoParametro;
+        this.tipo = tipoParametro;
+        this.lexema = lexemaParametro;
     }
     
 }

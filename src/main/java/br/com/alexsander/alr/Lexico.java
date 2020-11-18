@@ -142,7 +142,7 @@ public class Lexico {
                     } else if (lexema.equals("booleano")) {
                         return new Token(TipoToken.SBOOLEANO, lexema, linha, coluna - lexema.length());
                     } else {
-                        Chave chave = new Chave("Programa", "IDENTIFICADOR", lexema);
+                        Chave chave = new Chave("Programa", TipoToken.SIDENTIFICADOR, lexema);
                         Token token = new Token(TipoToken.SIDENTIFICADOR, lexema, linha, coluna - lexema.length());
                         ts.addTokenNaTS(chave, token);
                         System.out.println("Tabela de simbolos por enquanto: " + ts.getToken(chave));
