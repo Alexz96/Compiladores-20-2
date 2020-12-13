@@ -2,7 +2,7 @@ package br.com.alexsander.alr;
 
 /**
  *
- * @author alexs
+ * @author Alexsander
  */
 public abstract class Parser {
     

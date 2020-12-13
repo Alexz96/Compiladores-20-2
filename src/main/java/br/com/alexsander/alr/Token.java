@@ -10,10 +10,12 @@ package br.com.alexsander.alr;
  * @author alexs
  */
 public class Token {
+    
     TipoToken tipo;
     String lexema;
     int linha;
     int coluna;
+    String codigoGerado;
 
     public Token(TipoToken tipo, String lexema, int linha, int coluna) {
         this.tipo = tipo;
