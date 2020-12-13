@@ -12,7 +12,7 @@ public abstract class Parser {
     
     public Parser() {
         ts = new TabelaDeSimbolos();
-        lexico = new Lexico();
+        lexico = new Lexico("teste1.lpd");
     }
     
     public abstract void parse();

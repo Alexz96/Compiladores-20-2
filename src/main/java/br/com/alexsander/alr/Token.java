@@ -15,6 +15,7 @@ public class Token {
     String lexema;
     int linha;
     int coluna;
+    String nome;
     String codigoGerado;
 
     public Token(TipoToken tipo, String lexema, int linha, int coluna) {

@@ -22,7 +22,7 @@ public class LexicoMain {
         ArrayList<Token> lt = new ArrayList<Token>();
 
         //Cria o analisador léxico
-        Lexico lexico = new Lexico();
+        Lexico lexico = new Lexico("teste1.lpd");
 
         //Realiza a análise léxica do arquivo com o respectivo nome
         lt = lexico.analisa("teste1.lpd");
@@ -32,6 +32,16 @@ public class LexicoMain {
 
         //Percorre lista de tokens imprimindo-os
         lt.forEach(token -> System.out.println(token.toString()));
+        
+        // Instanciacao do Parser Preditivo Recursivo que herda de Parser
+        PPR parser = new PPR("teste1.lpd");
+        parser.parse();
+        
+        //Instanciacao do ParseCodigo, onde inicia-se a geracao do codigo intermediario
+        ParseCodigo parseCodigo = new ParseCodigo(lexico);
+        // analise do codigo efetuada e salvamento do codigo intermediario em uma String
+        String codigo = parseCodigo.parse();
+        System.out.println("Codigo: \n" + codigo);
     }
 
 }

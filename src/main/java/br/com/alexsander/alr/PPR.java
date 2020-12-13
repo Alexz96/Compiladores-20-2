@@ -5,20 +5,55 @@ import java.io.IOException;
 
 /**
  *
- * @author alexs
+ * @author Alexsander
  * @author taywornath
  */
 public class PPR extends Parser {
 
     public PPR(String arquivo) {
         super();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    // Método que inicia a analise sintatica do codigo LPD
     @Override
     public void parse() {
-        //analisaPrograma();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        expressao();        
+    }
+    
+    public void expressao() {
+        // Aqui eh chamado o metodo pai da classe para retornar os tokens e entao
+        // realizar a validacao das regras sintaticas
+        token = super.buscaToken();
+        if (token.tipo == TipoToken.SMAIS || token.tipo == TipoToken.SMENOS) {
+            token = super.buscaToken();
+        }
+        termo();
+        while (token.tipo == TipoToken.SMAIS || token.tipo == TipoToken.SMENOS) {
+            token = super.buscaToken();
+            termo();
+        }
+    }
+
+    public void termo() {
+        fator();
+        token = super.buscaToken();
+        while (token.tipo == TipoToken.SMULTIPLICACAO || token.tipo == TipoToken.SDIVISAO) {
+            token = super.buscaToken();
+            fator();
+            token = super.buscaToken();
+        }
+    }
+
+    public void fator() {
+        if (token.tipo == TipoToken.SIDENTIFICADOR || token.tipo == TipoToken.SNUMERO); 
+        else if (token.tipo == TipoToken.SABRE_PARENTESIS) {
+            expressao();
+            token = super.buscaToken();
+            if (token.tipo == TipoToken.SFECHA_PARENTESIS); else {
+                System.out.println(") esperado");
+            }
+        }
+
     }
 
     public boolean analisaPrograma() throws IOException {
@@ -77,11 +112,6 @@ public class PPR extends Parser {
     @Override
     public boolean erro(String cadeia) {
         return super.erro(cadeia);
-    }
-
-    public static void main(String[] args) {
-        PPR ppr = new PPR("teste1.lpd");
-        ppr.parse();
     }
 
 }

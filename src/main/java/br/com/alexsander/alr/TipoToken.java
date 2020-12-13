@@ -27,6 +27,7 @@ public enum TipoToken {
 	SABRE_PARENTESIS,		//(
 	SFECHA_PARENTESIS,		//)
         SOPERACAO,                      // Usado para identificar uma operacao
+        SCODIGO,
 	SERRO				//Usado para tokens nao reconhecidos
 
 }

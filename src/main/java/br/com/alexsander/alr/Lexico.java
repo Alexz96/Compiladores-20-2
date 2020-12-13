@@ -35,6 +35,17 @@ public class Lexico {
     
     // Instanciação da tabela de simbolos
     TabelaDeSimbolos ts = new TabelaDeSimbolos();
+    
+    public Lexico(String arquivo) {
+        try {
+            r = new PushbackReader(
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    new FileInputStream(arquivo))));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public Token buscaToken() {
 
@@ -135,7 +146,6 @@ public class Lexico {
                     } else if (lexema.equals("var")) {
                         return new Token(TipoToken.SVAR, lexema, linha, coluna - lexema.length());
                     } else if (lexema.equals("escreva")) {
-                        System.out.println(escreveResultado());
                         return new Token(TipoToken.SESCREVA, lexema, linha, coluna - lexema.length());
                     } else if (lexema.equals("inteiro")) {
                         return new Token(TipoToken.SINTEIRO, lexema, linha, coluna - lexema.length());
