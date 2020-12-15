@@ -11,7 +11,7 @@ import java.io.IOException;
 public class PPR extends Parser {
 
     public PPR(String arquivo) {
-        super();
+        super(arquivo);
     }
 
     // Método que inicia a analise sintatica do codigo LPD
@@ -23,24 +23,24 @@ public class PPR extends Parser {
     public void expressao() {
         // Aqui eh chamado o metodo pai da classe para retornar os tokens e entao
         // realizar a validacao das regras sintaticas
-        token = super.buscaToken();
+        token = lexico.buscaToken();
         if (token.tipo == TipoToken.SMAIS || token.tipo == TipoToken.SMENOS) {
-            token = super.buscaToken();
+            token = lexico.buscaToken();
         }
         termo();
         while (token.tipo == TipoToken.SMAIS || token.tipo == TipoToken.SMENOS) {
-            token = super.buscaToken();
+            token = lexico.buscaToken();
             termo();
         }
     }
 
     public void termo() {
         fator();
-        token = super.buscaToken();
+        token = lexico.buscaToken();
         while (token.tipo == TipoToken.SMULTIPLICACAO || token.tipo == TipoToken.SDIVISAO) {
-            token = super.buscaToken();
+            token = lexico.buscaToken();
             fator();
-            token = super.buscaToken();
+            token = lexico.buscaToken();
         }
     }
 
@@ -48,7 +48,7 @@ public class PPR extends Parser {
         if (token.tipo == TipoToken.SIDENTIFICADOR || token.tipo == TipoToken.SNUMERO); 
         else if (token.tipo == TipoToken.SABRE_PARENTESIS) {
             expressao();
-            token = super.buscaToken();
+            token = lexico.buscaToken();
             if (token.tipo == TipoToken.SFECHA_PARENTESIS); else {
                 System.out.println(") esperado");
             }
@@ -63,23 +63,23 @@ public class PPR extends Parser {
         return bandeira;
          */
 
-        buscaToken();
+        lexico.buscaToken();
 
         if (token.tipo == TipoToken.SPROGRAMA) {
             System.out.print(token.tipo + "");
-            buscaToken();
+            lexico.buscaToken();
 
             if (token.tipo == TipoToken.SIDENTIFICADOR) {
                 System.out.print(token.tipo + ": " + token.lexema + ' ');
                 //Adiciona identificador na tabela de simbolos
                 Chave chave = new Chave("programa", token.tipo, token.lexema);
                 ts.ts.put(chave, token);
-                buscaToken();
+                lexico.buscaToken();
 
                 if (token.tipo == TipoToken.SPONTO_E_VIRGULA) {
                     System.out.print(token.tipo + " ");
                     if (analisaBloco()) {
-                        buscaToken();
+                        lexico.buscaToken();
                         if (token.tipo == TipoToken.SPONTO) {
                             System.out.print(token.tipo + " ");
                         }

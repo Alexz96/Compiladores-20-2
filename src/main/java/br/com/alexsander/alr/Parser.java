@@ -10,9 +10,9 @@ public abstract class Parser {
     Lexico lexico;
     Token token;
     
-    public Parser() {
+    public Parser(String arquivo) {
         ts = new TabelaDeSimbolos();
-        lexico = new Lexico("teste1.lpd");
+        lexico = new Lexico(arquivo);
     }
     
     public abstract void parse();

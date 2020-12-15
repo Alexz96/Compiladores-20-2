@@ -80,7 +80,7 @@ public class ParseCodigo {
         Token t = new Token(TipoToken.SCODIGO, "", 0, 0);
         if (token.tipo == TipoToken.SIDENTIFICADOR || token.tipo == TipoToken.SNUMERO) {
             t.lexema = token.lexema;
-            t.codigoGerado = token.lexema;
+            t.codigo = token.lexema;
             t.nome = geraTemp();
             geraCod("store i32 " + t.lexema + ", i32* " + t.nome + ", align 4");
         } else if (token.tipo == TipoToken.SABRE_PARENTESIS) {
